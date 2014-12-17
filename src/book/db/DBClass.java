@@ -17,89 +17,74 @@ import book.model.Books;
 public class DBClass {
 	public Connection createConnection() throws ClassNotFoundException,
 			SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
+		Class.forName("org.postgresql.Driver");
 		Connection connection = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/sachdb", "postgres", "dtbt");
+				"jdbc:postgresql://localhost:5432/sachdb", "postgres", "dtbt");
+		connection.setAutoCommit(false);
+
 		return connection;
 	}
 
-	// we get values from servlet by passing bean object to insertdetails method
+	// we get values from servlet by passing bean object to insert details method
 	public int insertDetails(Books bb) throws SQLException,
 			ClassNotFoundException {
 		Connection con = createConnection();
 		PreparedStatement pstmt = con
-				.prepareStatement("insert into userdetails values(?,?,?,?)");
+				.prepareStatement("insert into sach values(?,?,?,?,?,?)");
 		// set values to prepared statement object by getting values from bean
 		// object
 		pstmt.setString(1, bb.getName());
-		pstmt.setString(2, bb.getCategory());
+
+		pstmt.setString(2, bb.getName());
+		pstmt.setString(3, bb.getCategory());
 
 		int i = pstmt.executeUpdate();
 		return i;
 
 	}
 
-	public List<Books> getAlldetails(Books ubean) throws SQLException,
+	public List<Books> getAlldetails(Books bb) throws SQLException,
 			ClassNotFoundException {
-
+		
 		Connection con = createConnection();
 		PreparedStatement pstmt = con
-				.prepareStatement("select * from userdetails");
+				.prepareStatement("select * from sach");
 		ResultSet rs = pstmt.executeQuery();
 		List<Books> list = new ArrayList<Books>();
 		while (rs.next()) {
-			ubean.setName(rs.getString(1));
-			ubean.setCategory(rs.getString(2));
-
-			list.add(ubean);
+			bb.setId (Integer.parseInt(rs.getString(1)));
+			bb.setName(rs.getString(2));
+			bb.setCategory(rs.getString(3));
+			bb.setPublisher(rs.getString(4));
+			bb.setPrice(rs.getString(5));
+			bb.setSummary(rs.getString(6));
+			list.add(bb);
 
 		}
 		return list;
 	}
+	  public List<Books> getAlldetails()throws SQLException, ClassNotFoundException
+	    {
+	       
+	        Connection con = createConnection();
+	        PreparedStatement pstmt = con.prepareStatement("select * from sach");
+	        ResultSet rs = pstmt.executeQuery();
+	        List <Books> list = new ArrayList<Books>();
+	        while(rs.next())
+	        {
+	            Books bb = new Books();
+	            bb.setId (Integer.parseInt(rs.getString(1)));
+				bb.setName(rs.getString(2));
+				bb.setCategory(rs.getString(3));
+				bb.setPublisher(rs.getString(4));
+				bb.setPrice(rs.getString(5));
+				bb.setSummary(rs.getString(6));
+				list.add(bb);
 
-	public Books getDetails(String uname) throws SQLException,
-			ClassNotFoundException {
-		// here we will write code to get a single record from database
-		Connection con = createConnection();
-		PreparedStatement pstmt = con
-				.prepareStatement("select * from userdetails where user_name=?");
-		pstmt.setString(1, uname);
-		ResultSet rs = pstmt.executeQuery();
-		List<Books> list = new ArrayList<Books>();
-		Books ubean = new Books();
-		while (rs.next()) {
+	        }
+	        return list;
+	    }
 
-			ubean.setName(rs.getString(1));
-			ubean.setCategory(rs.getString(2));
-
-		}
-		ubean.setAction("update");
-		return ubean;
-	}
-
-	public void UpateDetails(String name, Books ubean) throws SQLException,
-			ClassNotFoundException {
-
-		Connection con = createConnection();
-		PreparedStatement pstmt = con
-				.prepareStatement("update userdetails set date_of_birth=?,e_mail=?,phone_no=? where user_name=? ");
-		// set values to prepared statement object by getting values from bean
-		// object
-		pstmt.setString(1, ubean.getName());
-		pstmt.setString(2, ubean.getCategory());
-		pstmt.setString(4, name);
-		pstmt.executeUpdate();
-
-	}
-
-	public void deleteDetails(String uname) throws SQLException,
-			ClassNotFoundException {
-		// here we will write code to get a single record from database
-		Connection con = createConnection();
-		PreparedStatement pstmt = con
-				.prepareStatement("delete * from userdetails where user_name=?");
-		pstmt.setString(1, uname);
-
-	}
+	
 
 }
