@@ -1,4 +1,4 @@
-package book.model;
+package com.app.model;
 
 /**
  * @author happy
@@ -11,6 +11,7 @@ public class Books {
 	private String publisher;
 	private String price;
 	private String summary;
+	private String action;
 
 
 	public Books() {
@@ -23,6 +24,7 @@ public class Books {
 		this.publisher = publisher;
 		this.price=price;
 		this.summary = summary;
+		this.action = "submit";
 	}
 
 
@@ -73,6 +75,12 @@ public class Books {
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
+	 public String getAction() {
+	        return action;
+	    }
+	    public void setAction(String action) {
+	        this.action = action;
+	    }
 
 	
 }

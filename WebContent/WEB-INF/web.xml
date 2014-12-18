@@ -2,17 +2,44 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
   <display-name>Books</display-name>
   <servlet>
-    <servlet-name>Controller</servlet-name>
-    <servlet-class>book.controller.Controller</servlet-class>
+    <servlet-name>LoginController</servlet-name>
+    <servlet-class>com.app.controller.LoginController</servlet-class>
+  </servlet>
+  
+  <!-- ListBooksController -->
+  <servlet>
+    <servlet-name>ListBooksController</servlet-name>
+    <servlet-class>com.app.controller.ListBooksController</servlet-class>
+  </servlet>
+    <servlet-mapping>
+    <servlet-name>ListBooksController</servlet-name>
+    <url-pattern>/listbooks</url-pattern>
+  </servlet-mapping>
+  
+  <!-- AddBookController -->
+  <servlet>
+    <servlet-name>AddBookController</servlet-name>
+    <servlet-class>com.app.controller.AddBookController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>Controller</servlet-name>
-    <url-pattern>/Controller</url-pattern>
+    <servlet-name>AddBookController</servlet-name>
+    <url-pattern>/book/add</url-pattern>
   </servlet-mapping>
+  
+  <!-- update controller -->
+   <servlet>
+    <servlet-name>UpdateBookController</servlet-name>
+    <servlet-class>com.app.controller.UpdateBookController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name> UpdateBookController</servlet-name>
+    <url-pattern>/book/update</url-pattern>
+  </servlet-mapping>
+
   <session-config>
     <session-timeout>30</session-timeout>
   </session-config>
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>listbooks</welcome-file>
   </welcome-file-list>
 </web-app>
